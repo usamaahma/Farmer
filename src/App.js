@@ -1,10 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
+import Landing from "./components/landing";
+import Navbar from "./components/navbar";
 
 function App() {
   return (
     <div className="App">
-      <p>idenndjwn</p>
+      <Navbar />
+      <Landing />
     </div>
   );
 }
