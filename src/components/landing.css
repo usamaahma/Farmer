@@ -243,6 +243,75 @@ body {
     color: white;
 }
 
+/* Farmers Carousel */
+.farmers-carousel {
+    padding: 0 40px;
+    position: relative;
+}
+
+.farmers-carousel .farmer-slide {
+    padding: 0 15px;
+}
+
+.farmers-carousel .farmer-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.farmers-carousel .farmer-card:hover {
+    transform: translateY(-5px);
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    font-weight: bold;
+    color: #4CAF50;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-arrow-left {
+    left: 0;
+}
+
+.carousel-arrow-right {
+    right: 0;
+}
+
+.carousel-arrow:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .farmers-carousel {
+        padding: 0 30px;
+    }
+
+    .carousel-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-content h1 {

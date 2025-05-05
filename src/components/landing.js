@@ -28,6 +28,22 @@ const Landing = () => {
             crops: ["Apples", "Cherries", "Peaches"],
             rating: 4.9,
             image: "https://images.unsplash.com/photo-1505253469693-bfce2a1e6155?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"
+        },
+        {
+            id: 4,
+            name: "Sunshine Orchards",
+            location: "Balochistan",
+            crops: ["Dates", "Apricots"],
+            rating: 4.7,
+            image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+        },
+        {
+            id: 5,
+            name: "River View Farms",
+            location: "Punjab",
+            crops: ["Vegetables", "Herbs"],
+            rating: 4.6,
+            image: "https://images.unsplash.com/photo-1595475207225-428b62bda831?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
         }
     ];
 
@@ -92,33 +108,57 @@ const Landing = () => {
                 </div>
             </section>
 
-            {/* Farmers Listing */}
+            {/* Farmers Listing - Now as Carousel */}
             <section className="farmers-section">
                 <div className="section-header">
                     <h2>Featured Farmers</h2>
                     <p>Connect directly with local farmers</p>
                 </div>
-                <div className="farmers-grid">
+                <Carousel
+                    showArrows={true}
+                    infiniteLoop={true}
+                    showThumbs={false}
+                    showStatus={false}
+                    autoPlay={true}
+                    interval={5000}
+                    className="farmers-carousel"
+                    renderArrowPrev={(onClickHandler, hasPrev, label) =>
+                        hasPrev && (
+                            <button type="button" onClick={onClickHandler} title={label} className="carousel-arrow carousel-arrow-left">
+                                &lt;
+                            </button>
+                        )
+                    }
+                    renderArrowNext={(onClickHandler, hasNext, label) =>
+                        hasNext && (
+                            <button type="button" onClick={onClickHandler} title={label} className="carousel-arrow carousel-arrow-right">
+                                &gt;
+                            </button>
+                        )
+                    }
+                >
                     {farmers.map(farmer => (
-                        <div key={farmer.id} className="farmer-card">
-                            <div className="farmer-image" style={{ backgroundImage: `url(${farmer.image})` }}></div>
-                            <div className="farmer-info">
-                                <h3>{farmer.name}</h3>
-                                <p className="location">{farmer.location}</p>
-                                <div className="crops">
-                                    {farmer.crops.map((crop, index) => (
-                                        <span key={index} className="crop-tag">{crop}</span>
-                                    ))}
+                        <div key={farmer.id} className="farmer-slide">
+                            <div className="farmer-card">
+                                <div className="farmer-image" style={{ backgroundImage: `url(${farmer.image})` }}></div>
+                                <div className="farmer-info">
+                                    <h3>{farmer.name}</h3>
+                                    <p className="location">{farmer.location}</p>
+                                    <div className="crops">
+                                        {farmer.crops.map((crop, index) => (
+                                            <span key={index} className="crop-tag">{crop}</span>
+                                        ))}
+                                    </div>
+                                    <div className="rating">
+                                        <span className="stars">★★★★★</span>
+                                        <span>{farmer.rating}</span>
+                                    </div>
+                                    <button className="view-button">View Profile</button>
                                 </div>
-                                <div className="rating">
-                                    <span className="stars">★★★★★</span>
-                                    <span>{farmer.rating}</span>
-                                </div>
-                                <button className="view-button">View Profile</button>
                             </div>
                         </div>
                     ))}
-                </div>
+                </Carousel>
             </section>
 
             {/* Products Carousel */}
