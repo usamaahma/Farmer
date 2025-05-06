@@ -1,13 +1,12 @@
-import "./App.css";
-import Landing from "./components/landing";
-import Navbar from "./components/navbar";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes";
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Landing />
-    </div>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
 
