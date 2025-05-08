@@ -159,7 +159,7 @@ const Landing = () => {
           <p>
             Pakistan's premier digital marketplace for agricultural products
           </p>
-          <button className="cta-button">Explore Farms</button>
+          <button className="cta-button">Explore Farmers</button>
         </div>
       </section>
 

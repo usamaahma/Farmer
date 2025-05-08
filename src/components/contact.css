@@ -1,0 +1,40 @@
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #fefefe;
+    box-shadow: 0 0 10px rgba(0,0,0,0.08);
+    border-radius: 12px;
+  }
+  
+  .contact-title {
+    text-align: center;
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .contact-description {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .contact-form .ant-form-item {
+    margin-bottom: 20px;
+  }
+  
+  .contact-button {
+    width: 100%;
+    background-color: #28a745;
+    border: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .contact-button:hover {
+    background-color: #218838;
+  }
+  

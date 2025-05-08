@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaUser, FaUserPlus } from "react-icons/fa";
 import "./navbar.css";
+import { Link } from "react-router-dom";
 
 const Navbar1 = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,19 +60,27 @@ const Navbar1 = () => {
             </a>
           </li>
           <li>
-            <a href="/contact" onClick={handleLinkClick}>
+            <Link
+              to="/contact-us"
+              style={{ textDecoration: "none", color: "inherit" }}
+              onClick={handleLinkClick}
+            >
               Contact
-            </a>
+            </Link>
           </li>
         </ul>
 
         <div className="navbar-actions">
-          <button className="btn btn-login">
-            <FaUser style={{ marginRight: "8px" }} /> Login
-          </button>
-          <button className="btn btn-signup">
-            <FaUserPlus style={{ marginRight: "8px" }} /> Sign Up
-          </button>
+          <Link to="/login">
+            <button className="btn btn-login">
+              <FaUser style={{ marginRight: "8px" }} /> Login
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button className="btn btn-signup">
+              <FaUserPlus style={{ marginRight: "8px" }} /> Sign Up
+            </button>
+          </Link>
         </div>
       </div>
     </nav>
