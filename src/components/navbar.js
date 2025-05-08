@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const Navbar1 = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState(null); // Store user info
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +18,12 @@ const Navbar1 = () => {
       }
     };
 
+    // Check if user is logged in
+    const storedUser = localStorage.getItem("user"); // Assuming user info is stored in localStorage under the key 'user'
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); // Set user from localStorage
+    }
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -25,6 +32,11 @@ const Navbar1 = () => {
     if (window.innerWidth <= 768) {
       setIsOpen(false);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // Remove user info from localStorage on logout
+    setUser(null); // Set user state to null
   };
 
   return (
@@ -50,15 +62,11 @@ const Navbar1 = () => {
             </a>
           </li>
           <li>
-            <a href="/weather" onClick={handleLinkClick}>
-              Weather
+            <a href="/events" onClick={handleLinkClick}>
+              Events
             </a>
           </li>
-          <li>
-            <a href="/market" onClick={handleLinkClick}>
-              Market
-            </a>
-          </li>
+
           <li>
             <Link
               to="/contact-us"
@@ -71,16 +79,24 @@ const Navbar1 = () => {
         </ul>
 
         <div className="navbar-actions">
-          <Link to="/login">
-            <button className="btn btn-login">
-              <FaUser style={{ marginRight: "8px" }} /> Login
+          {user ? (
+            <button className="btn btn-user" onClick={handleLogout}>
+              {user.name} (Logout)
             </button>
-          </Link>
-          <Link to="/signup">
-            <button className="btn btn-signup">
-              <FaUserPlus style={{ marginRight: "8px" }} /> Sign Up
-            </button>
-          </Link>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="btn btn-login">
+                  <FaUser style={{ marginRight: "8px" }} /> Login
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="btn btn-signup">
+                  <FaUserPlus style={{ marginRight: "8px" }} /> Sign Up
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

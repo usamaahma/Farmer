@@ -7,6 +7,8 @@ import ProductDetail from "./components/productdetail";
 import Login from "./components/auth/login";
 import Signup from "./components/auth/signup";
 import Contact from "./components/contact";
+import Crops from "./components/crops";
+import Events from "./components/events";
 
 const AppRoutes = () => {
   return (
@@ -20,6 +22,9 @@ const AppRoutes = () => {
         <Route path="/farmer/:id" element={<FarmerProfile />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/landing" element={<Landing />} />
+        <Route path="/crops" element={<Crops />} />
+        <Route path="/events" element={<Events />} />
+
       </Routes>
     </>
   );

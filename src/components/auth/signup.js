@@ -2,12 +2,20 @@ import React from "react";
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 import "./login.css";
+import { users } from "../../utils/axios";
 
 const Signup = () => {
-  const onFinish = (values) => {
-    console.log("Signup Data:", values);
-    message.success("Account created successfully!");
-    // Add signup logic here
+  const onFinish = async (values) => {
+    try {
+      const response = await users.post(`/register`, values);
+      message.success("Account created successfully!");
+      console.log("Server Response:", response.data);
+    } catch (error) {
+      console.error("Signup error:", error.response?.data || error.message);
+      message.error(
+        error.response?.data?.message || "Signup failed. Please try again."
+      );
+    }
   };
 
   return (
