@@ -2,12 +2,12 @@ import React from "react";
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 import "./login.css";
-import { users } from "../../utils/axios";
+import { auth } from "../../utils/axios";
 
 const Signup = () => {
   const onFinish = async (values) => {
     try {
-      const response = await users.post(`/register`, values);
+      const response = await auth.post(`/register`, values);
       message.success("Account created successfully!");
       console.log("Server Response:", response.data);
     } catch (error) {
