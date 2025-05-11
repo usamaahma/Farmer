@@ -1,205 +1,250 @@
 /* Base Styles */
 :root {
-    --primary-color: #2E8B57;
-    --secondary-color: #3CB371;
-    --dark-color: #333;
-    --light-color: #f8f9fa;
-    --white: #ffffff;
-    --gray: #6c757d;
+  --primary-color: #2e8b57;
+  --secondary-color: #3cb371;
+  --dark-color: #333;
+  --light-color: #f8f9fa;
+  --white: #ffffff;
+  --gray: #6c757d;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
-    background-color: var(--light-color);
-    color: var(--dark-color);
+  background-color: var(--light-color);
+  color: var(--dark-color);
 }
 
 .landing-page {
-    max-width: 100%;
-    overflow-x: hidden;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Hero Banner */
 .hero-banner {
-    height: 80vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--white);
-    padding: 0 20px;
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  padding: 0 20px;
 }
 
 .hero-content h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 .hero-content p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 /* Section Styles */
 .section-header {
-    text-align: center;
-    margin: 4rem 0 2rem;
+  text-align: center;
+  margin: 4rem 0 2rem;
 }
 
 .section-header h2 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
 }
 
 .section-header p {
-    font-size: 1.2rem;
-    color: var(--gray);
+  font-size: 1.2rem;
+  color: var(--gray);
 }
 
-/* Farmers Grid */
-.farmers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 0 2rem;
-    margin-bottom: 4rem;
+/* Multi-card Carousel Styles */
+.multi-card-carousel {
+  padding: 0 60px;
+  margin-bottom: 4rem;
 }
 
+.multi-card-carousel .slider-wrapper {
+  overflow: visible;
+}
+
+.carousel-slide {
+  padding: 0 15px;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Farmer Card Styles */
 .farmer-card {
-    background: var(--white);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 300px;
+  max-width: 350px;
 }
 
 .farmer-card:hover {
-    transform: translateY(-10px);
+  transform: translateY(-5px);
 }
 
 .farmer-image {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
 }
 
 .farmer-info {
-    padding: 1.5rem;
+  padding: 1.5rem;
 }
 
 .farmer-info h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .location {
-    color: var(--gray);
-    margin-bottom: 1rem;
+  color: var(--gray);
+  margin-bottom: 1rem;
 }
 
 .crops {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .crop-tag {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
 }
 
 .rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .stars {
-    color: #FFD700;
+  color: #ffd700;
 }
 
-/* Carousels */
-.products-carousel,
-.events-carousel {
-    margin: 0 auto 4rem;
-    max-width: 1200px;
+/* Product Card Styles */
+.product-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 300px;
+  max-width: 350px;
 }
 
-.product-slide,
-.event-slide {
-    display: flex;
-    flex-direction: column;
-    height: 400px;
+.product-card:hover {
+  transform: translateY(-5px);
 }
 
-.product-image,
-.event-image {
-    flex: 1;
-    background-size: cover;
-    background-position: center;
+.product-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
 }
 
-.product-details,
-.event-details {
-    padding: 1.5rem;
-    background: var(--white);
-    text-align: center;
+.product-details {
+  padding: 1.5rem;
+  text-align: center;
 }
 
-.product-details h3,
-.event-details h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+.product-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.farmer-name,
-.date {
-    color: var(--gray);
-    margin-bottom: 0.5rem;
+.farmer-name {
+  color: var(--gray);
+  margin-bottom: 0.5rem;
 }
 
 .price {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+/* Event Card Styles */
+.event-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 400px;
+  max-width: 500px;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+}
+
+.event-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.event-details {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.event-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.date {
+  color: var(--gray);
+  margin-bottom: 0.5rem;
 }
 
 /* Promo Banner */
 .promo-banner {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-    background-size: cover;
-    background-position: center;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--white);
-    margin-bottom: 4rem;
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 4rem;
 }
 
 .promo-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 /* Buttons */
@@ -207,147 +252,136 @@ body {
 .view-button,
 .buy-button,
 .register-button {
-    padding: 0.8rem 1.8rem;
-    border-radius: 50px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    font-size: 1rem;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1rem;
 }
 
 .cta-button {
-    background: var(--primary-color);
-    color: white;
-    font-size: 1.2rem;
+  background: var(--primary-color);
+  color: white;
+  font-size: 1.2rem;
 }
 
 .cta-button:hover {
-    background: var(--secondary-color);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  background: var(--secondary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .view-button,
 .buy-button,
 .register-button {
-    background: white;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+  background: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 
 .view-button:hover,
 .buy-button:hover,
 .register-button:hover {
-    background: var(--primary-color);
-    color: white;
+  background: var(--primary-color);
+  color: white;
 }
 
-/* Farmers Carousel */
-.farmers-carousel {
-    padding: 0 40px;
-    position: relative;
-}
-
-.farmers-carousel .farmer-slide {
-    padding: 0 15px;
-}
-
-.farmers-carousel .farmer-card {
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    height: 100%;
-}
-
-.farmers-carousel .farmer-card:hover {
-    transform: translateY(-5px);
-}
-
+/* Carousel Arrows */
 .carousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: white;
-    border: none;
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    font-size: 18px;
-    font-weight: bold;
-    color: #4CAF50;
-    cursor: pointer;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--primary-color);
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .carousel-arrow-left {
-    left: 0;
+  left: 10px;
 }
 
 .carousel-arrow-right {
-    right: 0;
+  right: 10px;
 }
 
 .carousel-arrow:hover {
-    background: #4CAF50;
-    color: white;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .farmers-carousel {
-        padding: 0 30px;
-    }
-
-    .carousel-arrow {
-        width: 30px;
-        height: 30px;
-        font-size: 16px;
-    }
+  background: var(--primary-color);
+  color: white;
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .cards-container {
+    flex-wrap: wrap;
+  }
+
+  .farmer-card,
+  .product-card {
+    min-width: 250px;
+  }
+
+  .event-card {
+    min-width: 350px;
+  }
+}
+
 @media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
+  .multi-card-carousel {
+    padding: 0 30px;
+  }
 
-    .hero-content p {
-        font-size: 1.2rem;
-    }
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
 
-    .section-header h2 {
-        font-size: 2rem;
-    }
+  .hero-content p {
+    font-size: 1.2rem;
+  }
 
-    .farmers-grid {
-        grid-template-columns: 1fr;
-        padding: 0 1rem;
-    }
+  .section-header h2 {
+    font-size: 2rem;
+  }
 
-    .product-slide,
-    .event-slide {
-        height: auto;
-        flex-direction: column;
-    }
+  .promo-content h2 {
+    font-size: 2rem;
+  }
 
-    .promo-content h2 {
-        font-size: 2rem;
-    }
+  .carousel-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 480px) {
-    .hero-content h1 {
-        font-size: 2rem;
-    }
+  .multi-card-carousel {
+    padding: 0 15px;
+  }
 
-    .hero-content p {
-        font-size: 1rem;
-    }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .farmer-card,
+  .product-card,
+  .event-card {
+    min-width: 100%;
+  }
 }
