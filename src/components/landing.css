@@ -1,0 +1,387 @@
+/* Base Styles */
+:root {
+  --primary-color: #2e8b57;
+  --secondary-color: #3cb371;
+  --dark-color: #333;
+  --light-color: #f8f9fa;
+  --white: #ffffff;
+  --gray: #6c757d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+.landing-page {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Hero Banner */
+.hero-banner {
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Section Styles */
+.section-header {
+  text-align: center;
+  margin: 4rem 0 2rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  font-size: 1.2rem;
+  color: var(--gray);
+}
+
+/* Multi-card Carousel Styles */
+.multi-card-carousel {
+  padding: 0 60px;
+  margin-bottom: 4rem;
+}
+
+.multi-card-carousel .slider-wrapper {
+  overflow: visible;
+}
+
+.carousel-slide {
+  padding: 0 15px;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Farmer Card Styles */
+.farmer-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 300px;
+  max-width: 350px;
+}
+
+.farmer-card:hover {
+  transform: translateY(-5px);
+}
+
+.farmer-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.farmer-info {
+  padding: 1.5rem;
+}
+
+.farmer-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.location {
+  color: var(--gray);
+  margin-bottom: 1rem;
+}
+
+.crops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.crop-tag {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.stars {
+  color: #ffd700;
+}
+
+/* Product Card Styles */
+.product-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 300px;
+  max-width: 350px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.product-details {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.product-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.farmer-name {
+  color: var(--gray);
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+/* Event Card Styles */
+.event-card {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 400px;
+  max-width: 500px;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+}
+
+.event-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.event-details {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.event-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.date {
+  color: var(--gray);
+  margin-bottom: 0.5rem;
+}
+
+/* Promo Banner */
+.promo-banner {
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 4rem;
+}
+
+.promo-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+.cta-button,
+.view-button,
+.buy-button,
+.register-button {
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1rem;
+}
+
+.cta-button {
+  background: var(--primary-color);
+  color: white;
+  font-size: 1.2rem;
+}
+
+.cta-button:hover {
+  background: var(--secondary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.view-button,
+.buy-button,
+.register-button {
+  background: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.view-button:hover,
+.buy-button:hover,
+.register-button:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Carousel Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--primary-color);
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-arrow-left {
+  left: 10px;
+}
+
+.carousel-arrow-right {
+  right: 10px;
+}
+
+.carousel-arrow:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .cards-container {
+    flex-wrap: wrap;
+  }
+
+  .farmer-card,
+  .product-card {
+    min-width: 250px;
+  }
+
+  .event-card {
+    min-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .multi-card-carousel {
+    padding: 0 30px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .promo-content h2 {
+    font-size: 2rem;
+  }
+
+  .carousel-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .multi-card-carousel {
+    padding: 0 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .farmer-card,
+  .product-card,
+  .event-card {
+    min-width: 100%;
+  }
+}
