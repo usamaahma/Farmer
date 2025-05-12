@@ -1,139 +1,126 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from "react-router-dom";
+import { FiSearch, FiX } from "react-icons/fi";
+import { users, crops, event } from "../utils/axios";
 import "./landing.css";
 
 const Landing = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [farmers, setFarmers] = useState([]);
+  const [cropsData, setCropsData] = useState([]);
+  const [eventsData, setEventsData] = useState([]);
+  const [loading, setLoading] = useState({
+    farmers: true,
+    crops: true,
+    events: true,
+  });
+  const [error, setError] = useState({
+    farmers: null,
+    crops: null,
+    events: null,
+  });
 
-  const farmers = [
-    {
-      id: 1,
-      name: "Ali Farms",
-      location: "Punjab",
-      crops: ["Wheat", "Rice", "Cotton"],
-      rating: 4.8,
-      image:
-        "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
-    },
-    {
-      id: 2,
-      name: "Khan Agriculture",
-      location: "Sindh",
-      crops: ["Sugarcane", "Mangoes"],
-      rating: 4.5,
-      image:
-        "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1489&q=80",
-    },
-    {
-      id: 3,
-      name: "Green Valley Farms",
-      location: "KPK",
-      crops: ["Apples", "Cherries", "Peaches"],
-      rating: 4.9,
-      image:
-        "https://images.unsplash.com/photo-1505253469693-bfce2a1e6155?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    },
-    {
-      id: 4,
-      name: "Sunshine Orchards",
-      location: "Balochistan",
-      crops: ["Dates", "Apricots"],
-      rating: 4.7,
-      image:
-        "https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    },
-    {
-      id: 5,
-      name: "River View Farms",
-      location: "Punjab",
-      crops: ["Vegetables", "Herbs"],
-      rating: 4.6,
-      image:
-        "https://images.unsplash.com/photo-1595475207225-428b62bda831?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    },
+  // Sample suggestions data
+  const allSuggestions = [
+    "Wheat",
+    "Rice",
+    "Cotton",
+    "Sugarcane",
+    "Mangoes",
+    "Apples",
+    "Cherries",
+    "Peaches",
+    "Dates",
+    "Apricots",
+    "Vegetables",
+    "Herbs",
+    "Organic Farming",
+    "Punjab",
+    "Sindh",
+    "KPK",
+    "Balochistan",
+    "Farm Equipment",
+    "Agriculture Expo",
   ];
 
-  const products = [
-    {
-      id: 1,
-      name: "Organic Wheat",
-      price: "Rs. 1200/kg",
-      farmer: "Ali Farms",
-      image:
-        "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    },
-    {
-      id: 2,
-      name: "Fresh Mangoes",
-      price: "Rs. 800/dozen",
-      farmer: "Khan Agriculture",
-      image:
-        "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1365&q=80",
-    },
-    {
-      id: 3,
-      name: "Premium Apples",
-      price: "Rs. 1500/kg",
-      farmer: "Green Valley Farms",
-      image:
-        "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    },
-    {
-      id: 4,
-      name: "Organic Dates",
-      price: "Rs. 900/kg",
-      farmer: "Sunshine Orchards",
-      image:
-        "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    },
-    {
-      id: 5,
-      name: "Fresh Vegetables",
-      price: "Rs. 300/kg",
-      farmer: "River View Farms",
-      image:
-        "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch farmers data
+        const farmersResponse = await users.get("");
+        const farmerUsers = farmersResponse.data.results.filter(
+          (user) => user.role === "farmer"
+        );
+        setFarmers(farmerUsers);
+        setLoading((prev) => ({ ...prev, farmers: false }));
+        setError((prev) => ({ ...prev, farmers: null }));
 
-  const events = [
-    {
-      id: 1,
-      title: "Agriculture Expo 2023",
-      date: "15-17 November",
-      location: "Lahore Expo Center",
-      image:
-        "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
-    },
-    {
-      id: 2,
-      title: "Organic Farming Workshop",
-      date: "5 December",
-      location: "Online",
-      image:
-        "https://images.unsplash.com/photo-1524179091875-bf99a9a6af57?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    },
-    {
-      id: 3,
-      title: "Farmers Market",
-      date: "Every Sunday",
-      location: "Islamabad",
-      image:
-        "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80",
-    },
-    {
-      id: 4,
-      title: "Fruit Festival",
-      date: "20-25 December",
-      location: "Karachi",
-      image:
-        "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    },
-  ];
+        // Fetch crops data
+        const cropsResponse = await crops.get("");
+        setCropsData(cropsResponse.data.results);
+        setLoading((prev) => ({ ...prev, crops: false }));
+        setError((prev) => ({ ...prev, crops: null }));
 
-  // Function to chunk array into groups for carousel slides
+        // Fetch events data
+        const eventsResponse = await event.get("");
+        setEventsData(eventsResponse.data.results);
+        setLoading((prev) => ({ ...prev, events: false }));
+        setError((prev) => ({ ...prev, events: null }));
+      } catch (err) {
+        if (err.config.url.includes("users")) {
+          setError((prev) => ({ ...prev, farmers: err.message }));
+          setLoading((prev) => ({ ...prev, farmers: false }));
+        } else if (err.config.url.includes("crops")) {
+          setError((prev) => ({ ...prev, crops: err.message }));
+          setLoading((prev) => ({ ...prev, crops: false }));
+        } else if (err.config.url.includes("events")) {
+          setError((prev) => ({ ...prev, events: err.message }));
+          setLoading((prev) => ({ ...prev, events: false }));
+        }
+        console.error("Error fetching data:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    if (value.length > 0) {
+      const filtered = allSuggestions.filter((item) =>
+        item.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(filtered);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion);
+    setSuggestions([]);
+    navigate(`/search?query=${suggestion}`);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setSuggestions([]);
+  };
+
   const chunkArray = (array, chunkSize) => {
     const result = [];
     for (let i = 0; i < array.length; i += chunkSize) {
@@ -142,9 +129,60 @@ const Landing = () => {
     return result;
   };
 
-  const farmerChunks = chunkArray(farmers, 3);
-  const productChunks = chunkArray(products, 3);
-  const eventChunks = chunkArray(events, 2);
+  // Prepare farmer data for display
+  const farmerDataForDisplay = farmers.map((farmer) => ({
+    id: farmer.id,
+    name: farmer.name || "Farm",
+    location: farmer.location || "Pakistan",
+    crops: farmer.crops || ["Various Crops"],
+    rating: farmer.rating || 4.5,
+    image:
+      farmer.image ||
+      "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
+  }));
+
+  // Prepare crop data for display
+  const cropDataForDisplay = cropsData.map((crop) => ({
+    id: crop._id,
+    name: crop.name || "Crop",
+    price: crop.price ? `Rs. ${crop.price}/kg` : "Price not available",
+    farmer: crop.postedBy?.name || "Local Farmer",
+    image:
+      crop.image ||
+      "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+    inStock: crop.inStock || false,
+  }));
+
+  // Prepare event data for display
+  const eventDataForDisplay = eventsData.map((event) => ({
+    id: event._id,
+    title: event.eventName || "Agriculture Event",
+    date: event.createdAt
+      ? new Date(event.createdAt).toLocaleDateString()
+      : "Coming Soon",
+    location: event.location || "Pakistan",
+    image:
+      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+    farmer: event.farmerId?.name || "Agricultural Community",
+  }));
+
+  const farmerChunks = chunkArray(farmerDataForDisplay, 3);
+  const cropChunks = chunkArray(cropDataForDisplay, 3);
+  const eventChunks = chunkArray(eventDataForDisplay, 2);
+
+  if (loading.farmers || loading.crops || loading.events) {
+    return <div className="loading">Loading data...</div>;
+  }
+
+  if (error.farmers || error.crops || error.events) {
+    return (
+      <div className="error">
+        {error.farmers && <p>Error loading farmers: {error.farmers}</p>}
+        {error.crops && <p>Error loading crops: {error.crops}</p>}
+        {error.events && <p>Error loading events: {error.events}</p>}
+      </div>
+    );
+  }
 
   return (
     <div className="landing-page">
@@ -159,165 +197,271 @@ const Landing = () => {
           <p>
             Pakistan's premier digital marketplace for agricultural products
           </p>
-          <button className="cta-button">Explore Farmers</button>
-        </div>
-      </section>
-
-      {/* Farmers Carousel */}
-      <section className="farmers-section">
-        <div className="section-header">
-          <h2>Featured Farmers</h2>
-          <p>Connect directly with local farmers</p>
-        </div>
-        <Carousel
-          showArrows={true}
-          infiniteLoop={true}
-          showThumbs={false}
-          showStatus={false}
-          autoPlay={true}
-          interval={5000}
-          className="multi-card-carousel"
-          renderArrowPrev={(onClickHandler, hasPrev, label) =>
-            hasPrev && (
-              <button
-                type="button"
-                onClick={onClickHandler}
-                title={label}
-                className="carousel-arrow carousel-arrow-left"
-              >
-                &lt;
-              </button>
-            )
-          }
-          renderArrowNext={(onClickHandler, hasNext, label) =>
-            hasNext && (
-              <button
-                type="button"
-                onClick={onClickHandler}
-                title={label}
-                className="carousel-arrow carousel-arrow-right"
-              >
-                &gt;
-              </button>
-            )
-          }
-        >
-          {farmerChunks.map((chunk, index) => (
-            <div key={index} className="carousel-slide">
-              <div className="cards-container">
-                {chunk.map((farmer) => (
-                  <div
-                    key={farmer.id}
-                    className="farmer-card"
-                    onClick={() => navigate(`/farmer/${farmer.id}`)} // assume farmerId exists
+          <div className={`search-container ${isFocused ? "focused" : ""}`}>
+            <form className="search-bar" onSubmit={handleSearch}>
+              <div className="search-input-wrapper">
+                <FiSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search farmers, products, or locations..."
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    className="clear-button"
+                    onClick={clearSearch}
                   >
-                    <div
-                      className="farmer-image"
-                      style={{ backgroundImage: `url(${farmer.image})` }}
-                    ></div>
-                    <div className="farmer-info">
-                      <h3>{farmer.name}</h3>
-                      <p className="location">{farmer.location}</p>
-                      <div className="crops">
-                        {farmer.crops.map((crop, i) => (
-                          <span key={i} className="crop-tag">
-                            {crop}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="rating">
-                        <span className="stars">★★★★★</span>
-                        <span>{farmer.rating}</span>
-                      </div>
-                      <button className="view-button">View Profile</button>
-                    </div>
+                    <FiX />
+                  </button>
+                )}
+              </div>
+              <button type="submit" className="search-button">
+                Search
+              </button>
+            </form>
+            {suggestions.length > 0 && isFocused && (
+              <div className="suggestions-dropdown">
+                {suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="suggestion-item"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    <FiSearch className="suggestion-icon" />
+                    <span>{suggestion}</span>
                   </div>
                 ))}
               </div>
-            </div>
-          ))}
-        </Carousel>
+            )}
+          </div>
+        </div>
       </section>
 
-      {/* Products Carousel */}
+      <section className="farmers-section">
+        <div className="section-header">
+          {" "}
+          <h2>Featured Farmers</h2>
+          <p>Connect directly with local farmers</p>
+        </div>
+        {farmers.length > 0 ? (
+          <Carousel
+            showArrows={true}
+            infiniteLoop={true}
+            showThumbs={false}
+            showStatus={false}
+            autoPlay={true}
+            interval={5000}
+            className="multi-card-carousel"
+            renderArrowPrev={(onClickHandler, hasPrev, label) =>
+              hasPrev && (
+                <button
+                  type="button"
+                  onClick={onClickHandler}
+                  title={label}
+                  className="carousel-arrow carousel-arrow-left"
+                >
+                  &lt;
+                </button>
+              )
+            }
+            renderArrowNext={(onClickHandler, hasNext, label) =>
+              hasNext && (
+                <button
+                  type="button"
+                  onClick={onClickHandler}
+                  title={label}
+                  className="carousel-arrow carousel-arrow-right"
+                >
+                  &gt;
+                </button>
+              )
+            }
+          >
+            {farmerChunks.map((chunk, index) => (
+              <div key={index} className="carousel-slide">
+                <div className="cards-container">
+                  {chunk.map((farmer) => (
+                    <div
+                      key={farmer.id}
+                      className="farmer-card"
+                      onClick={() => navigate(`/farmer/${farmer.id}`)}
+                    >
+                      <div
+                        className="farmer-image"
+                        style={{ backgroundImage: `url(${farmer.image})` }}
+                      ></div>
+                      <div className="farmer-info">
+                        <h3>{farmer.name}</h3>
+                        <p className="location">{farmer.location}</p>
+                        <div className="crops">
+                          {farmer.crops.map((crop, i) => (
+                            <span key={i} className="crop-tag">
+                              {crop}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="rating">
+                          <span className="stars">★★★★★</span>
+                          <span>{farmer.rating}</span>
+                        </div>
+                        <button className="view-button">View Profile</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </Carousel>
+        ) : (
+          <div className="no-farmers">No farmers found</div>
+        )}
+      </section>
+
       <section className="products-section">
         <div className="section-header">
           <h2>Fresh Farm Products</h2>
           <p>Direct from farm to your table</p>
         </div>
-        <Carousel
-          showArrows={true}
-          infiniteLoop={true}
-          showThumbs={false}
-          autoPlay={true}
-          interval={5000}
-          className="multi-card-carousel"
-        >
-          {productChunks.map((chunk, index) => (
-            <div key={index} className="carousel-slide">
-              <div className="cards-container">
-                {chunk.map((product) => (
-                  <div
-                    key={product.id}
-                    className="product-card"
-                    onClick={() => navigate(`/product/${product.id}`)} // assume farmerId exists
-                  >
+        {cropsData.length > 0 ? (
+          <Carousel
+            showArrows={true}
+            infiniteLoop={true}
+            showThumbs={false}
+            autoPlay={true}
+            interval={5000}
+            className="multi-card-carousel"
+            renderArrowPrev={(onClickHandler, hasPrev, label) =>
+              hasPrev && (
+                <button
+                  type="button"
+                  onClick={onClickHandler}
+                  title={label}
+                  className="carousel-arrow carousel-arrow-left"
+                >
+                  &lt;
+                </button>
+              )
+            }
+            renderArrowNext={(onClickHandler, hasNext, label) =>
+              hasNext && (
+                <button
+                  type="button"
+                  onClick={onClickHandler}
+                  title={label}
+                  className="carousel-arrow carousel-arrow-right"
+                >
+                  &gt;
+                </button>
+              )
+            }
+          >
+            {cropChunks.map((chunk, index) => (
+              <div key={index} className="carousel-slide">
+                <div className="cards-container">
+                  {chunk.map((product) => (
                     <div
-                      className="product-image"
-                      style={{ backgroundImage: `url(${product.image})` }}
-                    ></div>
-                    <div className="product-details">
-                      <h3>{product.name}</h3>
-                      <p className="farmer-name">By {product.farmer}</p>
-                      <p className="price">{product.price}</p>
-                      <button className="buy-button">Buy Now</button>
+                      key={product.id}
+                      className="product-card"
+                      onClick={() => navigate(`/product/${product.id}`)}
+                    >
+                      <div
+                        className="product-image"
+                        style={{ backgroundImage: `url(${product.image})` }}
+                      ></div>
+                      <div className="product-details">
+                        <h3>{product.name}</h3>
+                        <p className="farmer-name">By {product.farmer}</p>
+                        <p className="price">{product.price}</p>
+                        {product.inStock ? (
+                          <button className="buy-button">Buy Now</button>
+                        ) : (
+                          <button className="out-of-stock-button" disabled>
+                            Out of Stock
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </Carousel>
+            ))}
+          </Carousel>
+        ) : (
+          <div className="no-products">No products available</div>
+        )}
       </section>
 
-      {/* Events Carousel */}
       <section className="events-section">
         <div className="section-header">
           <h2>Upcoming Events</h2>
           <p>Workshops, expos and markets</p>
         </div>
-        <Carousel
-          showArrows={true}
-          infiniteLoop={true}
-          showThumbs={false}
-          autoPlay={true}
-          interval={6000}
-          className="multi-card-carousel"
-        >
-          {eventChunks.map((chunk, index) => (
-            <div key={index} className="carousel-slide">
-              <div className="cards-container">
-                {chunk.map((event) => (
-                  <div key={event.id} className="event-card">
-                    <div
-                      className="event-image"
-                      style={{ backgroundImage: `url(${event.image})` }}
-                    ></div>
-                    <div className="event-details">
-                      <h3>{event.title}</h3>
-                      <p className="date">{event.date}</p>
-                      <p className="location">{event.location}</p>
-                      <button className="register-button">Register Now</button>
+        {eventsData.length > 0 ? (
+          <Carousel
+            showArrows={true}
+            infiniteLoop={true}
+            showThumbs={false}
+            autoPlay={true}
+            interval={6000}
+            className="multi-card-carousel"
+            renderArrowPrev={(onClickHandler, hasPrev, label) =>
+              hasPrev && (
+                <button
+                  type="button"
+                  onClick={onClickHandler}
+                  title={label}
+                  className="carousel-arrow carousel-arrow-left"
+                >
+                  &lt;
+                </button>
+              )
+            }
+            renderArrowNext={(onClickHandler, hasNext, label) =>
+              hasNext && (
+                <button
+                  type="button"
+                  onClick={onClickHandler}
+                  title={label}
+                  className="carousel-arrow carousel-arrow-right"
+                >
+                  &gt;
+                </button>
+              )
+            }
+          >
+            {eventChunks.map((chunk, index) => (
+              <div key={index} className="carousel-slide">
+                <div className="cards-container">
+                  {chunk.map((event) => (
+                    <div key={event.id} className="event-card">
+                      <div
+                        className="event-image"
+                        style={{ backgroundImage: `url(${event.image})` }}
+                      ></div>
+                      <div className="event-details">
+                        <h3>{event.title}</h3>
+                        <p className="date">{event.date}</p>
+                        <p className="location">{event.location}</p>
+                        <p className="organizer">By {event.farmer}</p>
+                        <button className="register-button">
+                          Register Now
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </Carousel>
+            ))}
+          </Carousel>
+        ) : (
+          <div className="no-events">No upcoming events</div>
+        )}
       </section>
 
-      {/* Promotional Banner */}
       <section
         className="promo-banner"
         style={{
@@ -333,4 +477,5 @@ const Landing = () => {
     </div>
   );
 };
+
 export default Landing;
