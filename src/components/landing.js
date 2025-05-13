@@ -143,7 +143,7 @@ const Landing = () => {
 
   // Prepare crop data for display
   const cropDataForDisplay = cropsData.map((crop) => ({
-    id: crop._id,
+    id: crop.id,
     name: crop.name || "Crop",
     price: crop.price ? `Rs. ${crop.price}/kg` : "Price not available",
     farmer: crop.postedBy?.name || "Local Farmer",
@@ -164,6 +164,7 @@ const Landing = () => {
     image:
       "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
     farmer: event.farmerId?.name || "Agricultural Community",
+    email: event.email,
   }));
 
   const farmerChunks = chunkArray(farmerDataForDisplay, 3);
@@ -445,11 +446,18 @@ const Landing = () => {
                       <div className="event-details">
                         <h3>{event.title}</h3>
                         <p className="date">{event.date}</p>
-                        <p className="location">{event.location}</p>
+                        <p className="location1">{event.location}</p>
                         <p className="organizer">By {event.farmer}</p>
-                        <button className="register-button">
-                          Register Now
-                        </button>
+                        <div>
+                          Email us at &nbsp;
+                          <a
+                            style={{ color: "green" }}
+                            href={`mailto:${event.email}`}
+                          >
+                            {event.email}
+                          </a>
+                          &nbsp; for Registration
+                        </div>
                       </div>
                     </div>
                   ))}

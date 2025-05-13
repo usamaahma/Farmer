@@ -1,22 +1,31 @@
-// src/components/ProductDetail.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./productdetail.css"; // Import the CSS file
-
-const dummyProductData = {
-  id: "1",
-  name: "Custom T-Shirt",
-  farmer: "John Doe",
-  description:
-    "This is a high-quality custom t-shirt made from 100% cotton. It is comfortable and fits perfectly for all occasions.",
-  price: "$19.99",
-  image: "https://via.placeholder.com/500x500",
-};
+import { crops } from "../utils/axios";
+import "./productdetail.css";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const product = dummyProductData;
+  useEffect(() => {
+    const fetchCrop = async () => {
+      try {
+        const response = await crops.get(`/${id}`);
+        setProduct(response.data);
+        console.log(response.data)
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching crop:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchCrop();
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (!product) return <p>Product not found.</p>;
 
   return (
     <div className="product-detail-container">
@@ -26,9 +35,11 @@ const ProductDetail = () => {
         </div>
         <div className="product-info">
           <h2>{product.name}</h2>
-          <p className="farmer-name">By {product.farmer}</p>
-          <p className="price">{product.price}</p>
-          <p className="description">{product.description}</p>
+          <p className="farmer-name">
+            By {product.postedBy?.name || "Unknown"}
+          </p>
+          <p className="price">Rs {product.price}</p>
+          <p className="description">{product.details}</p>
           <button className="buy-button">Buy Now</button>
         </div>
       </div>

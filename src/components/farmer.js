@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./farmer.css";
@@ -129,7 +129,9 @@ const FarmerProfile = () => {
                   <h3>{crop.name}</h3>
                   <p>{crop.description}</p>
                   <p className="price">Price: {crop.price}</p>
-                  <button className="view-details">View Details</button>
+                  <Link to={`/product/${crop.id}`}>
+                    <button className="view-details">View Details</button>
+                  </Link>
                 </div>
               </div>
             ))
