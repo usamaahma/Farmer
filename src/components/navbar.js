@@ -21,9 +21,9 @@ const Navbar1 = () => {
     // Check if user is logged in
     const storedUser = localStorage.getItem("user"); // Assuming user info is stored in localStorage under the key 'user'
     if (storedUser) {
-      setUser(JSON.parse(storedUser)); // Set user from localStorage
+      setUser(JSON.parse(storedUser));
     }
-
+    console.log(storedUser, "dsjb");
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);

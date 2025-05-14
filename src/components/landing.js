@@ -4,6 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FiSearch, FiX } from "react-icons/fi";
 import { users, crops, event } from "../utils/axios";
 import "./landing.css";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -378,7 +379,9 @@ const Landing = () => {
                           <span className="stars">★★★★★</span>
                           <span>{farmer.rating}</span>
                         </div>
-                        <button className="view-button">View Profile</button>
+                        <Link to={`/farmer/${farmer.id}`}>
+                          <button className="view-button">View Profile</button>
+                        </Link>{" "}
                       </div>
                     </div>
                   ))}
@@ -448,7 +451,9 @@ const Landing = () => {
                         <p className="location">{product.location}</p>
                         <p className="price">{product.price}</p>
                         {product.inStock ? (
-                          <button className="buy-button">Buy Now</button>
+                          <Link to={`/product/${product.id}`}>
+                            <button className="buy-button">View Details</button>
+                          </Link>
                         ) : (
                           <button className="out-of-stock-button" disabled>
                             Out of Stock

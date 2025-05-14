@@ -10,7 +10,7 @@ const CropList = () => {
     const fetchCrops = async () => {
       try {
         const response = await crops.get("/");
-        setCropList(response.data.results); // array
+        setCropList(response.data.results);
       } catch (error) {
         console.error("Error fetching crops:", error);
       } finally {
@@ -22,8 +22,23 @@ const CropList = () => {
   }, []);
 
   const handleBuyNow = (crop) => {
-    alert(`Buying: ${crop.name} for Rs ${crop.price}`);
-    // Yahan future me navigate ya cart logic laga sakte ho
+    let cart = JSON.parse(localStorage.getItem("cart")) || []; // Existing cart or empty array
+
+    const existingIndex = cart.findIndex((item) => item.id === crop.id);
+
+    if (existingIndex !== -1) {
+      // Crop already in cart, increase quantity
+      cart[existingIndex].quantity += 1;
+    } else {
+      // New crop, add with quantity
+      cart.push({ ...crop, quantity: 1 });
+    }
+
+    // Save updated cart to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Redirect to cart page
+    window.location.href = "/cart";
   };
 
   if (loading) return <p>Loading...</p>;
@@ -55,7 +70,10 @@ const CropList = () => {
               </p>
               <button
                 className="buy-now-btn"
-                onClick={() => handleBuyNow(crop)}
+                onClick={() => {
+                  handleBuyNow(crop);
+                  window.location.href = "/cart"; // redirect after adding to cart
+                }}
               >
                 Buy Now
               </button>

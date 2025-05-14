@@ -9,6 +9,8 @@ import Signup from "./components/auth/signup";
 import Contact from "./components/contact";
 import Crops from "./components/crops";
 import Events from "./components/events";
+import AddToCart from "./components/addtocart";
+import Checkout from "./components/checkout";
 
 const AppRoutes = () => {
   return (
@@ -24,7 +26,8 @@ const AppRoutes = () => {
         <Route path="/landing" element={<Landing />} />
         <Route path="/crops" element={<Crops />} />
         <Route path="/events" element={<Events />} />
-
+        <Route path="/cart" element={<AddToCart />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </>
   );
