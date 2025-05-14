@@ -18,6 +18,9 @@ const event = axios.create({
 const contact = axios.create({
   baseURL: `${baseURL}/contact`, // Assuming your crop API endpoint is "/crops"
 });
+const checkout = axios.create({
+  baseURL: `${baseURL}/checkout`, // Assuming your crop API endpoint is "/crops"
+});
 // Request Interceptor
 const requestInterceptor = (req) => {
   // Optional: Add auth tokens if needed
@@ -31,8 +34,8 @@ const errorInterceptor = (err) => {
 };
 
 // Apply interceptors
-[users, crops, auth, event, contact].forEach((instance) => {
+[users, crops, auth, event, contact,checkout].forEach((instance) => {
   instance.interceptors.request.use(requestInterceptor, errorInterceptor);
 });
 
-export { users, auth, crops, event, contact };
+export { users, auth, crops, event, contact,checkout };
