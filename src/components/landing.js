@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useNavigate } from "react-router-dom";
 import { FiSearch, FiX } from "react-icons/fi";
 import { users, crops, event } from "../utils/axios";
 import "./landing.css";
 
 const Landing = () => {
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -24,29 +22,9 @@ const Landing = () => {
     crops: null,
     events: null,
   });
+  const [allSuggestions, setAllSuggestions] = useState([]);
 
-  // Sample suggestions data
-  const allSuggestions = [
-    "Wheat",
-    "Rice",
-    "Cotton",
-    "Sugarcane",
-    "Mangoes",
-    "Apples",
-    "Cherries",
-    "Peaches",
-    "Dates",
-    "Apricots",
-    "Vegetables",
-    "Herbs",
-    "Organic Farming",
-    "Punjab",
-    "Sindh",
-    "KPK",
-    "Balochistan",
-    "Farm Equipment",
-    "Agriculture Expo",
-  ];
+  // Location-based suggestions data
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +49,50 @@ const Landing = () => {
         setEventsData(eventsResponse.data.results);
         setLoading((prev) => ({ ...prev, events: false }));
         setError((prev) => ({ ...prev, events: null }));
+
+        // Prepare suggestions from all data
+        const farmerNames = farmerUsers.map((f) => f.name);
+        const cropNames = cropsResponse.data.results.map((c) => c.name);
+        const eventNames = eventsResponse.data.results.map((e) => e.eventName);
+        const locations = [
+          "Punjab",
+          "Sindh",
+          "KPK",
+          "Balochistan",
+          "Pakistan",
+          "Lahore",
+          "Karachi",
+          "Islamabad",
+          "Peshawar",
+          "Quetta",
+          "Faisalabad",
+          "Rawalpindi",
+          "Multan",
+          "Gujranwala",
+          "Hyderabad",
+          "Sialkot",
+          "Sargodha",
+          "Bahawalpur",
+          "Sukkur",
+          "Larkana",
+          "Sheikhupura",
+          "Mardan",
+          "Gujrat",
+          "Kasur",
+        ];
+
+        setAllSuggestions(
+          [
+            ...new Set([
+              ...farmerNames,
+              ...cropNames,
+              ...eventNames,
+              ...locations,
+            ]),
+          ].filter(Boolean)
+        ); // Remove any undefined/null values
       } catch (err) {
+        // Error handling remains the same
         if (err.config.url.includes("users")) {
           setError((prev) => ({ ...prev, farmers: err.message }));
           setLoading((prev) => ({ ...prev, farmers: false }));
@@ -88,12 +109,9 @@ const Landing = () => {
 
     fetchData();
   }, []);
-
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?query=${searchQuery}`);
-    }
+    // No navigation needed, just filtering happens automatically
   };
 
   const handleInputChange = (e) => {
@@ -113,7 +131,6 @@ const Landing = () => {
   const handleSuggestionClick = (suggestion) => {
     setSearchQuery(suggestion);
     setSuggestions([]);
-    navigate(`/search?query=${suggestion}`);
   };
 
   const clearSearch = () => {
@@ -129,43 +146,100 @@ const Landing = () => {
     return result;
   };
 
+  // Filter data based on search query
+  const filterData = (
+    data,
+    isFarmer = false,
+    isCrop = false,
+    isEvent = false
+  ) => {
+    if (!searchQuery) return data;
+
+    return data.filter((item) => {
+      const searchLower = searchQuery.toLowerCase();
+
+      // Check location
+      if (item.location?.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      // Check name based on type
+      if (isFarmer && item.name?.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      if (isCrop && item.name?.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      if (isEvent && item.title?.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      // For crops, also check farmer name
+      if (isCrop && item.farmer?.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      // For events, also check organizer name
+      if (isEvent && item.farmer?.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      return false;
+    });
+  };
+
   // Prepare farmer data for display
-  const farmerDataForDisplay = farmers.map((farmer) => ({
-    id: farmer.id,
-    name: farmer.name || "Farm",
-    location: farmer.location || "Pakistan",
-    crops: farmer.crops || ["Various Crops"],
-    rating: farmer.rating || 4.5,
-    image:
-      farmer.image ||
-      "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
-  }));
+  const farmerDataForDisplay = filterData(
+    farmers.map((farmer) => ({
+      id: farmer.id,
+      name: farmer.name || "Farm",
+      location: farmer.location || "Pakistan",
+      crops: farmer.crops || ["Various Crops"],
+      rating: farmer.rating || 4.5,
+      image:
+        farmer.image ||
+        "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
+    })),
+    true // isFarmer
+  );
 
   // Prepare crop data for display
-  const cropDataForDisplay = cropsData.map((crop) => ({
-    id: crop.id,
-    name: crop.name || "Crop",
-    price: crop.price ? `Rs. ${crop.price}/kg` : "Price not available",
-    farmer: crop.postedBy?.name || "Local Farmer",
-    image:
-      crop.image ||
-      "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    inStock: crop.inStock || false,
-  }));
+  const cropDataForDisplay = filterData(
+    cropsData.map((crop) => ({
+      id: crop.id,
+      name: crop.name || "Crop",
+      price: crop.price ? `Rs. ${crop.price}/kg` : "Price not available",
+      farmer: crop.postedBy?.name || "Local Farmer",
+      location: crop.postedBy?.location || "Pakistan",
+      image:
+        crop.image ||
+        "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+      inStock: crop.inStock || false,
+    })),
+    false,
+    true // isCrop
+  );
 
   // Prepare event data for display
-  const eventDataForDisplay = eventsData.map((event) => ({
-    id: event._id,
-    title: event.eventName || "Agriculture Event",
-    date: event.createdAt
-      ? new Date(event.createdAt).toLocaleDateString()
-      : "Coming Soon",
-    location: event.location || "Pakistan",
-    image:
-      "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
-    farmer: event.farmerId?.name || "Agricultural Community",
-    email: event.email,
-  }));
+  const eventDataForDisplay = filterData(
+    eventsData.map((event) => ({
+      id: event._id,
+      title: event.eventName || "Agriculture Event",
+      date: event.createdAt
+        ? new Date(event.createdAt).toLocaleDateString()
+        : "Coming Soon",
+      location: event.location || "Pakistan",
+      image:
+        "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+      farmer: event.farmerId?.name || "Agricultural Community",
+      email: event.email,
+    })),
+    false,
+    false,
+    true // isEvent
+  );
 
   const farmerChunks = chunkArray(farmerDataForDisplay, 3);
   const cropChunks = chunkArray(cropDataForDisplay, 3);
@@ -204,7 +278,7 @@ const Landing = () => {
                 <FiSearch className="search-icon" />
                 <input
                   type="text"
-                  placeholder="Search farmers, products, or locations..."
+                  placeholder="Search farmers, products, events or locations..."
                   value={searchQuery}
                   onChange={handleInputChange}
                   onFocus={() => setIsFocused(true)}
@@ -244,17 +318,16 @@ const Landing = () => {
 
       <section className="farmers-section">
         <div className="section-header">
-          {" "}
           <h2>Featured Farmers</h2>
           <p>Connect directly with local farmers</p>
         </div>
-        {farmers.length > 0 ? (
+        {farmerDataForDisplay.length > 0 ? (
           <Carousel
             showArrows={true}
             infiniteLoop={true}
             showThumbs={false}
             showStatus={false}
-            autoPlay={true}
+            autoPlay={!searchQuery} // Disable auto-play when searching
             interval={5000}
             className="multi-card-carousel"
             renderArrowPrev={(onClickHandler, hasPrev, label) =>
@@ -286,11 +359,7 @@ const Landing = () => {
               <div key={index} className="carousel-slide">
                 <div className="cards-container">
                   {chunk.map((farmer) => (
-                    <div
-                      key={farmer.id}
-                      className="farmer-card"
-                      onClick={() => navigate(`/farmer/${farmer.id}`)}
-                    >
+                    <div key={farmer.id} className="farmer-card">
                       <div
                         className="farmer-image"
                         style={{ backgroundImage: `url(${farmer.image})` }}
@@ -318,7 +387,11 @@ const Landing = () => {
             ))}
           </Carousel>
         ) : (
-          <div className="no-farmers">No farmers found</div>
+          <div className="no-farmers">
+            {searchQuery
+              ? "No farmers found in this location"
+              : "No farmers found"}
+          </div>
         )}
       </section>
 
@@ -327,12 +400,12 @@ const Landing = () => {
           <h2>Fresh Farm Products</h2>
           <p>Direct from farm to your table</p>
         </div>
-        {cropsData.length > 0 ? (
+        {cropDataForDisplay.length > 0 ? (
           <Carousel
             showArrows={true}
             infiniteLoop={true}
             showThumbs={false}
-            autoPlay={true}
+            autoPlay={!searchQuery} // Disable auto-play when searching
             interval={5000}
             className="multi-card-carousel"
             renderArrowPrev={(onClickHandler, hasPrev, label) =>
@@ -364,11 +437,7 @@ const Landing = () => {
               <div key={index} className="carousel-slide">
                 <div className="cards-container">
                   {chunk.map((product) => (
-                    <div
-                      key={product.id}
-                      className="product-card"
-                      onClick={() => navigate(`/product/${product.id}`)}
-                    >
+                    <div key={product.id} className="product-card">
                       <div
                         className="product-image"
                         style={{ backgroundImage: `url(${product.image})` }}
@@ -376,6 +445,7 @@ const Landing = () => {
                       <div className="product-details">
                         <h3>{product.name}</h3>
                         <p className="farmer-name">By {product.farmer}</p>
+                        <p className="location">{product.location}</p>
                         <p className="price">{product.price}</p>
                         {product.inStock ? (
                           <button className="buy-button">Buy Now</button>
@@ -392,7 +462,11 @@ const Landing = () => {
             ))}
           </Carousel>
         ) : (
-          <div className="no-products">No products available</div>
+          <div className="no-products">
+            {searchQuery
+              ? "No products available in this location"
+              : "No products available"}
+          </div>
         )}
       </section>
 
@@ -401,12 +475,12 @@ const Landing = () => {
           <h2>Upcoming Events</h2>
           <p>Workshops, expos and markets</p>
         </div>
-        {eventsData.length > 0 ? (
+        {eventDataForDisplay.length > 0 ? (
           <Carousel
             showArrows={true}
             infiniteLoop={true}
             showThumbs={false}
-            autoPlay={true}
+            autoPlay={!searchQuery} // Disable auto-play when searching
             interval={6000}
             className="multi-card-carousel"
             renderArrowPrev={(onClickHandler, hasPrev, label) =>
@@ -466,7 +540,9 @@ const Landing = () => {
             ))}
           </Carousel>
         ) : (
-          <div className="no-events">No upcoming events</div>
+          <div className="no-events">
+            {searchQuery ? "No events in this location" : "No upcoming events"}
+          </div>
         )}
       </section>
 
