@@ -76,6 +76,15 @@ const Navbar1 = () => {
               Contact
             </Link>
           </li>
+          <li>
+            <Link
+              to="/cart"
+              style={{ textDecoration: "none", color: "inherit" }}
+              onClick={handleLinkClick}
+            >
+              Cart
+            </Link>
+          </li>
         </ul>
 
         <div className="navbar-actions">
